@@ -1,18 +1,20 @@
 {
   "name": "food-dist",
   "version": "1.0.0",
-  "description": "",
+  "description": "Основная идея этого проекта - правильное питание! Вы тут сможете найти для себя много полезной информаций о ЗОЖ. Так же на сайте имеется калькулятор для расчета вашей суточной потребности в калориях.",
   "main": "gulpfile.js",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-rename": "^2.0.0",
-    "gulp-sass": "^4.1.0"
-  },
-  "devDependencies": {
+    "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^3.0.0",
-    "gulp-watch": "^5.0.1"
+    "gulp-watch": "^5.0.1",
+    "npm-check-updates": "^11.4.1"
   },
-  "scripts": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "author": "Narek Magtaghyan",
   "license": "ISC"
 }
