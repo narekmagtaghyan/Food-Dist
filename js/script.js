@@ -91,4 +91,45 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     setClock(".timer", deadline);
+
+    /* === МОДАЛЬНОЕ ОКНО === */
+    // Получаем все нужные элементы со страницы
+    const modalTrigger = document.querySelectorAll("[data-modal]"),
+        modalClose = document.querySelector("[data-close]"),
+        modal = document.querySelector(".modal");
+
+    // Функция для открытия модального окна
+    function openModal() {
+        modal.classList.add("show");
+        modal.classList.remove("hide");
+        document.body.style.overflow = "hidden";
+    }
+
+    // Функция для закрытия модального окна
+    function closeModal() {
+        modal.classList.add("hide");
+        modal.classList.remove("show");
+        document.body.style.overflow = "";
+    }
+
+
+    modalTrigger.forEach(btn => {
+        btn.addEventListener("click", openModal);
+    });
+
+    modalClose.addEventListener("click", closeModal);
+
+    // Закрытия модального окна по клику на подложку
+    modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Закрытия модального окна через клавишу "ECS"
+    document.addEventListener("keydown", (event) => {
+        if (event.code === "Escape" && modal.classList.contains("show")) {
+            closeModal();
+        }
+    });
 });
