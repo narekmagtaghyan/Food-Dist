@@ -23,6 +23,7 @@ window.addEventListener("DOMContentLoaded", () => {
         tabs[i].classList.add("tabheader__item_active");
     }
 
+    // Перелистывает вкладки
     tabs.forEach((tab, i) => {
         tab.addEventListener("click", () => {
             hideTabContent();
@@ -110,13 +111,15 @@ window.addEventListener("DOMContentLoaded", () => {
         modal.classList.add("hide");
         modal.classList.remove("show");
         document.body.style.overflow = "";
+        clearInterval(modalTimerId);
     }
 
-
+    // Открытия модального окна по клику на "Связаться с нами"
     modalTrigger.forEach(btn => {
         btn.addEventListener("click", openModal);
     });
 
+    // Закрытия модального окна по клику на крестик
     modalClose.addEventListener("click", closeModal);
 
     // Закрытия модального окна по клику на подложку
@@ -126,10 +129,25 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Закрытия модального окна через клавишу "ECS"
+    // Закрытия модального окна через клавишу "ESC"
     document.addEventListener("keydown", (event) => {
         if (event.code === "Escape" && modal.classList.contains("show")) {
             closeModal();
         }
     });
+
+    /* Если модальное окно не открылось при каких-то обстоятельствах, то оно автоматически 
+    откроется через определенное время, которое указано внизу */
+    const modalTimerId = setTimeout(openModal, 10000);
+
+    /* Функция для открытия модального окна, при том случии 
+    когда пользователь пролистает до конца страницы */
+    function showModalByScroll() {
+        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+            openModal();
+            window.removeEventListener("scroll", showModalByScroll);
+        }
+    }
+
+    window.addEventListener("scroll", showModalByScroll);
 });
