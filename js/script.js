@@ -227,13 +227,14 @@ window.addEventListener("DOMContentLoaded", () => {
     // Получает все формы со страницы
     const forms = document.querySelectorAll("form");
 
-    // Сообщение об оповещение пользоветля
+    // Сообщение об оповещение пользователя
     const message = {
         loading: "img/form/spinner.svg",
         succes: "Спасибо! Скоро мы с вами свяжеимся",
         failure: "Что-то пошло не так..."
     }
 
+    // Запускает отдельно функцию postData для каждой формы
     forms.forEach(form => {
         postData(form);
     });
@@ -243,22 +244,26 @@ window.addEventListener("DOMContentLoaded", () => {
         form.addEventListener("submit", (event) => {
             event.preventDefault();
 
+            // Создает спиннер для загрузки
             const statusMessage = document.createElement("img");
             statusMessage.src = message.loading;
             statusMessage.style.cssText = `
                 display: block;
                 margin: 0 auto;
-                margin-top: 10px;
             `;
             form.insertAdjacentElement("afterend", statusMessage);
 
+            // Создание запроса
             const request = new XMLHttpRequest();
             request.open("POST", "server.php");
 
+            // Данные отправленные с формы, в виде объекта
             const formData = new FormData(form);
 
+            // Отправка данных на сервер
             request.send(formData);
 
+            // Проверка
             request.addEventListener("load", () => {
                 if (request.status === 200) {
                     console.log(request.response);
@@ -272,15 +277,18 @@ window.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* Функция для создания нового модального окна для оповещений пользователя,
+    /* Создания нового модального окна для оповещений пользователя, 
     об удачной отправки данных на сервер */
-    function showThanksModal(message) {
-        const prevModalDialog = document.querySelector(".modal__dialog");
+    const thanksModal = document.createElement("div");
 
+    function showThanksModal(message) {
+        // Скрывает начальное модальное окно
+        thanksModal.remove();
+        const prevModalDialog = document.querySelector(".modal__dialog");
         prevModalDialog.classList.add("hide");
         openModal();
 
-        const thanksModal = document.createElement("div");
+        // Дает структуру окна оповещения
         thanksModal.classList.add("modal__dialog");
         thanksModal.innerHTML = `
             <div class="modal__content">
@@ -289,7 +297,10 @@ window.addEventListener("DOMContentLoaded", () => {
             </div>
         `;
 
+        // Добавляет окно оповещения на страницу
         document.querySelector(".modal").append(thanksModal);
+
+        // Удаляет его через определенное время
         setTimeout(() => {
             thanksModal.remove();
             prevModalDialog.classList.add("show");
